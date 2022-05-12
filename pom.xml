@@ -12,6 +12,15 @@
     <name>Message of the Day Plugin</name>
     <description>Allows admins to have a message sent to users each time they log in.</description>
 
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.h2database/h2-mvstore -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2-mvstore</artifactId>
+            <version>2.1.212</version>
+        </dependency>
+    </dependencies>
+
     <repositories>
         <!-- Where dependencies are obtained (such as the parent project). -->
         <repository>

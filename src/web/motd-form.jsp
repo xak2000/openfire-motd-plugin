@@ -18,6 +18,7 @@ errorPage="error.jsp"%>
     final boolean motdEnabled = ParamUtils.getBooleanParameter( request, "motdenabled", false );
     final String motdSubject = ParamUtils.getParameter( request, "motdSubject" );
     final String motdMessage = ParamUtils.getParameter( request, "motdMessage" );
+    final long motdMinDelay = ParamUtils.getLongParameter( request, "motdMinDelay", 0 );
 
     final Cookie csrfCookie = CookieUtils.getCookie( request, "csrf" );
     final String csrfParam = ParamUtils.getParameter( request, "csrf" );
@@ -47,6 +48,7 @@ errorPage="error.jsp"%>
             plugin.setEnabled( motdEnabled );
             plugin.setSubject( motdSubject );
             plugin.setMessage( motdMessage );
+            plugin.setMinDelay( motdMinDelay );
 
             response.sendRedirect( "motd-form.jsp?settingsSaved=true" );
             return;
@@ -61,6 +63,7 @@ errorPage="error.jsp"%>
     pageContext.setAttribute( "motdEnabled", plugin.isEnabled() );
     pageContext.setAttribute( "motdSubject", plugin.getSubject() );
     pageContext.setAttribute( "motdMessage", plugin.getMessage() );
+    pageContext.setAttribute( "motdMinDelay", plugin.getMinDelay() );
 %>
 
 <html>
@@ -103,12 +106,16 @@ errorPage="error.jsp"%>
 
             <table cellpadding="3" cellspacing="0" border="0" width="100%">
                 <tr>
-                    <td width="5%" valign="top"><fmt:message key="motd.subject" />:&nbsp;*</td>
-                    <td width="95%"><input type="text" name="motdSubject" value="${motdSubject}"></td>
+                    <td width="10%" valign="top" style="text-align: right">*&nbsp;<fmt:message key="motd.subject" />:</td>
+                    <td width="90%"><input type="text" name="motdSubject" value="${motdSubject}"></td>
                 </tr>
                 <tr>
-                    <td width="5%" valign="top"><fmt:message key="motd.message" />:&nbsp;*</td>
-                    <td width="95%"><textarea cols="45" rows="5" wrap="virtual" name="motdMessage"><c:out value="${motdMessage}"/></textarea></td>
+                    <td width="10%" valign="top" style="text-align: right">*&nbsp;<fmt:message key="motd.message" />:</td>
+                    <td width="90%"><textarea cols="45" rows="5" wrap="virtual" name="motdMessage"><c:out value="${motdMessage}"/></textarea></td>
+                </tr>
+                <tr>
+                    <td width="10%" valign="top" style="text-align: right"><fmt:message key="motd.min_delay" />:</td>
+                    <td width="90%"><input type="number" min="0" step="1" name="motdMinDelay" value="${motdMinDelay}"></td>
                 </tr>
                 <tr>
                     <td colspan="2" style="padding-top: 10px"><input type="submit" value="<fmt:message key="motd.button.save" />"/></td>
